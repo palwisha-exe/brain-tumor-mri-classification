@@ -1,0 +1,5 @@
+class_name,L,RGB,RGBA
+glioma,1399,377,0
+meningioma,697,781,0
+notumor,12,945,1
+pituitary,930,826,0

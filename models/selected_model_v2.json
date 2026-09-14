@@ -1,0 +1,26 @@
+{
+  "model_version": 2,
+  "selection_metric": "validation macro-F1",
+  "test_set_used_for_selection": false,
+  "frozen_after_selection": true,
+  "selected": {
+    "run_name": "v2_b0_224_last3_unfreeze",
+    "checkpoint": "models/v2/v2_b0_224_last3_unfreeze_best.pt",
+    "checkpoint_sha256": "26e4b268c112533bf22b6e726625044b0d0ad774fa7d00bea2599e044c36e1d0",
+    "architecture": "efficientnet_b0",
+    "input_size": 224,
+    "unfrozen_blocks": 3,
+    "best_epoch": 3,
+    "validation_accuracy": 0.9681159420289855,
+    "validation_macro_f1": 0.9701309407245675,
+    "test_metrics": "reports/metrics/v2/final_v2_test_metrics.json",
+    "test_predictions": "reports/metrics/v2/final_v2_test_predictions.csv",
+    "verified_test_metrics": {
+      "samples": 896,
+      "accuracy": 0.9375,
+      "macro_precision": 0.9315602786058244,
+      "macro_recall": 0.9425142564187508,
+      "macro_f1": 0.9358515320873503
+    }
+  }
+}

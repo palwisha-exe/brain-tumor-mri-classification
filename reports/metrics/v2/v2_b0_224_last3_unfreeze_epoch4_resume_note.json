@@ -1,0 +1,19 @@
+{
+  "run_name": "v2_b0_224_last3_unfreeze",
+  "completed_before_resume": [
+    1,
+    2,
+    3
+  ],
+  "resumed_epoch": 4,
+  "resume_checkpoint": "models/v2/v2_b0_224_last3_unfreeze_best.pt",
+  "resume_checkpoint_sha256_before_epoch4": "26e4b268c112533bf22b6e726625044b0d0ad774fa7d00bea2599e044c36e1d0",
+  "checkpoint_best_epoch_before_resume": 3,
+  "optimizer_state_restored": false,
+  "scheduler_state_restored": false,
+  "augmentation_rng_state_restored": false,
+  "continuation_seed": 20260917,
+  "reason": "The interrupted trainer checkpoint saved model weights but not optimizer, scheduler, or RNG state.",
+  "test_set_read_or_used": false,
+  "original_testing_source_used": false
+}

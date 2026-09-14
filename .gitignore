@@ -1,0 +1,62 @@
+# Python bytecode and test/tool caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local environments and package artifacts
+.venv/
+venv/
+.cache/
+build/
+dist/
+*.egg-info/
+.ipynb_checkpoints/
+
+# Secrets and local environment configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets.toml
+.streamlit/secrets.toml
+
+# Original/source MRI data is local-only and never redistributed
+data/
+
+# Checkpoints are local. The one final checkpoint will be a GitHub Release
+# asset; only small selection/rights metadata is tracked.
+models/*
+!models/.gitkeep
+!models/README.md
+!models/selected_model.json
+!models/selected_model_v2.json
+
+# MRI-derived raster assets remain local until exact source-image
+# redistribution rights are verified. Aggregate plots remain trackable.
+reports/figures/*.jpg
+reports/figures/*confidence_errors.png
+reports/figures/v1_gradcam_cases/
+reports/figures/v2/gradcam_cases/
+reports/diagnostics/**/*.png
+reports/v2/error_analysis/*.jpg
+
+# Temporary/runtime files
+*.tmp
+*.temp
+*.log
+*.pid
+*.swp
+*~
+
+# OS and editor files
+.DS_Store
+._*
+.idea/
+.vscode/

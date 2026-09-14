@@ -1,0 +1,27 @@
+{
+  "selection_metric": "validation macro-F1; validation accuracy as tie-breaker",
+  "test_set_used_for_selection": false,
+  "candidates": [
+    {
+      "run_name": "baseline_cnn",
+      "checkpoint": "models/baseline_cnn_best.pt",
+      "architecture": "baseline_cnn",
+      "validation_macro_f1": 0.8584760206480813,
+      "validation_accuracy": 0.8581005586592179
+    },
+    {
+      "run_name": "efficientnet_b0_finetuned",
+      "checkpoint": "models/efficientnet_b0_finetuned_best.pt",
+      "architecture": "efficientnet_b0",
+      "validation_macro_f1": 0.9147862998701614,
+      "validation_accuracy": 0.9150837988826815
+    }
+  ],
+  "selected": {
+    "run_name": "efficientnet_b0_finetuned",
+    "checkpoint": "models/efficientnet_b0_finetuned_best.pt",
+    "architecture": "efficientnet_b0",
+    "validation_macro_f1": 0.9147862998701614,
+    "validation_accuracy": 0.9150837988826815
+  }
+}

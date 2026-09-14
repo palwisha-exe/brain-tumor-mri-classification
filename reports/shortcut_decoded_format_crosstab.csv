@@ -1,0 +1,5 @@
+class_name,JPEG,PNG
+glioma,1776,0
+meningioma,1478,0
+notumor,957,1
+pituitary,1756,0

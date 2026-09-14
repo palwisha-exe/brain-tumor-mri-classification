@@ -1,0 +1,5 @@
+class_name,Testing,Training
+glioma,380,1396
+meningioma,285,1193
+notumor,291,667
+pituitary,400,1356

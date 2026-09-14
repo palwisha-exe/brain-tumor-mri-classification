@@ -1,0 +1,170 @@
+{
+  "label": "Version 2 pre-training error analysis using Version 1 on legitimate train/validation manifests",
+  "v1_checkpoint": "models/efficientnet_b0_finetuned_best.pt",
+  "training": {
+    "samples": 4177,
+    "accuracy": 0.9391908067991381,
+    "macro_f1": 0.939969499590002,
+    "confusion_matrix": [
+      [
+        1142,
+        83,
+        15,
+        3
+      ],
+      [
+        34,
+        929,
+        16,
+        55
+      ],
+      [
+        6,
+        11,
+        652,
+        2
+      ],
+      [
+        7,
+        21,
+        1,
+        1200
+      ]
+    ],
+    "per_class": {
+      "glioma": {
+        "precision": 0.960470984020185,
+        "recall": 0.918744971842317,
+        "f1": 0.9391447368421053,
+        "support": 1243
+      },
+      "meningioma": {
+        "precision": 0.8898467432950191,
+        "recall": 0.8984526112185687,
+        "f1": 0.8941289701636189,
+        "support": 1034
+      },
+      "notumor": {
+        "precision": 0.9532163742690059,
+        "recall": 0.9716840536512668,
+        "f1": 0.9623616236162361,
+        "support": 671
+      },
+      "pituitary": {
+        "precision": 0.9523809523809523,
+        "recall": 0.9764035801464606,
+        "f1": 0.9642426677380475,
+        "support": 1229
+      }
+    }
+  },
+  "validation": {
+    "samples": 895,
+    "accuracy": 0.9150837988826815,
+    "macro_f1": 0.9147862998701614,
+    "confusion_matrix": [
+      [
+        233,
+        29,
+        4,
+        0
+      ],
+      [
+        7,
+        195,
+        6,
+        14
+      ],
+      [
+        5,
+        3,
+        135,
+        1
+      ],
+      [
+        2,
+        4,
+        1,
+        256
+      ]
+    ],
+    "per_class": {
+      "glioma": {
+        "precision": 0.9433198380566802,
+        "recall": 0.8759398496240601,
+        "f1": 0.9083820662768031,
+        "support": 266
+      },
+      "meningioma": {
+        "precision": 0.8441558441558441,
+        "recall": 0.8783783783783784,
+        "f1": 0.8609271523178808,
+        "support": 222
+      },
+      "notumor": {
+        "precision": 0.9246575342465754,
+        "recall": 0.9375,
+        "f1": 0.9310344827586207,
+        "support": 144
+      },
+      "pituitary": {
+        "precision": 0.9446494464944649,
+        "recall": 0.973384030418251,
+        "f1": 0.9588014981273408,
+        "support": 263
+      }
+    }
+  },
+  "training_glioma_meningioma_profile": {
+    "pairwise_error_count": 117,
+    "pairwise_error_median_confidence": 0.6391680836677551,
+    "pairwise_error_high_confidence_ge_0_8": 21,
+    "pairwise_error_dimension_median": {
+      "width": 512.0,
+      "height": 512.0,
+      "aspect_ratio": 1.0
+    },
+    "all_dimension_median": {
+      "width": 512.0,
+      "height": 512.0,
+      "aspect_ratio": 1.0
+    },
+    "pairwise_original_source_counts": {
+      "Training": 83,
+      "Testing": 34
+    }
+  },
+  "validation_glioma_meningioma_profile": {
+    "pairwise_error_count": 36,
+    "pairwise_error_median_confidence": 0.69280628,
+    "pairwise_error_high_confidence_ge_0_8": 9,
+    "pairwise_error_dimension_median": {
+      "width": 512.0,
+      "height": 512.0,
+      "aspect_ratio": 1.0
+    },
+    "all_dimension_median": {
+      "width": 512.0,
+      "height": 512.0,
+      "aspect_ratio": 1.0
+    },
+    "pairwise_original_source_counts": {
+      "Training": 25,
+      "Testing": 11
+    }
+  },
+  "training_class_counts": {
+    "glioma": 1243,
+    "meningioma": 1034,
+    "notumor": 671,
+    "pituitary": 1229
+  },
+  "v2_training_policy": {
+    "allowed_source": "Rows in metadata/splits/train.csv with original_split=Training only",
+    "allowed_samples": 3221,
+    "excluded_from_v2_training_due_original_testing_source": 956,
+    "validation_manifest_unchanged": true,
+    "test_manifest_read_or_used": false
+  },
+  "elapsed_seconds": 145.09462809562683
+}

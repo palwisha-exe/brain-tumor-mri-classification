@@ -1,0 +1,112 @@
+{
+  "accuracy": 0.8581005586592179,
+  "macro_precision": 0.8629145591189553,
+  "macro_recall": 0.8658733944249003,
+  "macro_f1": 0.8584760206480813,
+  "weighted_f1": 0.8570415218984623,
+  "per_class": {
+    "glioma": {
+      "precision": 0.995049504950495,
+      "recall": 0.7556390977443609,
+      "f1": 0.8589743589743589,
+      "support": 266
+    },
+    "meningioma": {
+      "precision": 0.7521739130434782,
+      "recall": 0.7792792792792793,
+      "f1": 0.7654867256637168,
+      "support": 222
+    },
+    "notumor": {
+      "precision": 0.85625,
+      "recall": 0.9513888888888888,
+      "f1": 0.9013157894736842,
+      "support": 144
+    },
+    "pituitary": {
+      "precision": 0.8481848184818482,
+      "recall": 0.9771863117870723,
+      "f1": 0.9081272084805654,
+      "support": 263
+    }
+  },
+  "confusion_matrix": [
+    [
+      201,
+      51,
+      5,
+      9
+    ],
+    [
+      0,
+      173,
+      17,
+      32
+    ],
+    [
+      1,
+      1,
+      137,
+      5
+    ],
+    [
+      0,
+      5,
+      1,
+      257
+    ]
+  ],
+  "classification_report": {
+    "glioma": {
+      "precision": 0.995049504950495,
+      "recall": 0.7556390977443609,
+      "f1-score": 0.8589743589743589,
+      "support": 266.0
+    },
+    "meningioma": {
+      "precision": 0.7521739130434782,
+      "recall": 0.7792792792792793,
+      "f1-score": 0.7654867256637168,
+      "support": 222.0
+    },
+    "notumor": {
+      "precision": 0.85625,
+      "recall": 0.9513888888888888,
+      "f1-score": 0.9013157894736842,
+      "support": 144.0
+    },
+    "pituitary": {
+      "precision": 0.8481848184818482,
+      "recall": 0.9771863117870723,
+      "f1-score": 0.9081272084805654,
+      "support": 263.0
+    },
+    "accuracy": 0.8581005586592179,
+    "macro avg": {
+      "precision": 0.8629145591189553,
+      "recall": 0.8658733944249003,
+      "f1-score": 0.8584760206480813,
+      "support": 895.0
+    },
+    "weighted avg": {
+      "precision": 0.8693166304728602,
+      "recall": 0.8581005586592179,
+      "f1-score": 0.8570415218984623,
+      "support": 895.0
+    }
+  },
+  "roc_auc_ovr_macro": 0.9698803633254932,
+  "roc_auc_ovr_weighted": 0.9688422786845192,
+  "roc_auc_per_class": {
+    "glioma": 0.9715863585832626,
+    "meningioma": 0.9267700092365768,
+    "notumor": 0.9925839621245747,
+    "pituitary": 0.9885811233575589
+  },
+  "run_name": "baseline_cnn",
+  "architecture": "baseline_cnn",
+  "checkpoint": "models/baseline_cnn_best.pt",
+  "split": "validation",
+  "samples": 895,
+  "selection_used_this_split": false
+}

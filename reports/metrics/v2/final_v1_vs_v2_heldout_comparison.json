@@ -1,0 +1,43 @@
+{
+  "comparison_name": "Version 1 vs selected Version 2 on the same official leakage-controlled held-out test split",
+  "test_manifest": "metadata/splits/test.csv",
+  "test_manifest_sha256": "84a4b1827ce4b96e1bcd66f71ce75583ccecb490d0f247b9b4ff7d599d033368",
+  "samples": 896,
+  "selection_or_tuning_used_test_results": false,
+  "models": [
+    {
+      "version": "Version 1",
+      "run_name": "efficientnet_b0_finetuned",
+      "checkpoint": "models/efficientnet_b0_finetuned_best.pt",
+      "samples": 896,
+      "accuracy": 0.8995535714285714,
+      "macro_precision": 0.9005664563650368,
+      "macro_recall": 0.9046265096124647,
+      "macro_f1": 0.9024893929067711,
+      "glioma_to_meningioma_errors": 32,
+      "meningioma_to_glioma_errors": 28,
+      "glioma_meningioma_pairwise_errors": 60
+    },
+    {
+      "version": "Version 2",
+      "run_name": "v2_b0_224_last3_unfreeze",
+      "checkpoint": "models/v2/v2_b0_224_last3_unfreeze_best.pt",
+      "samples": 896,
+      "accuracy": 0.9375,
+      "macro_precision": 0.9315602786058244,
+      "macro_recall": 0.9425142564187508,
+      "macro_f1": 0.9358515320873503,
+      "glioma_to_meningioma_errors": 19,
+      "meningioma_to_glioma_errors": 4,
+      "glioma_meningioma_pairwise_errors": 23
+    }
+  ],
+  "v2_minus_v1": {
+    "accuracy": 0.0379464285714286,
+    "macro_precision": 0.030993822240787505,
+    "macro_recall": 0.03788774680628604,
+    "macro_f1": 0.033362139180579176
+  },
+  "v2_improves_accuracy": true,
+  "v2_improves_macro_f1": true
+}

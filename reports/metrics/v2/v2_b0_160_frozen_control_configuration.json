@@ -1,0 +1,30 @@
+{
+  "run_name": "v2_b0_160_frozen_control",
+  "version": 2,
+  "architecture": "efficientnet_b0",
+  "initial_checkpoint": "models/efficientnet_b0_frozen_best.pt",
+  "initial_checkpoint_sha256": "71f8b9eaab088d3ec4cd4020260f09d3123d2dbb6766cacfe54e227a3c078509",
+  "input_size": 160,
+  "unfrozen_blocks": 0,
+  "classifier_reset": true,
+  "augmentation": "v1_conservative",
+  "loss": "weighted_ce",
+  "focal_gamma": null,
+  "learning_rate": 0.001,
+  "weight_decay": 0.0001,
+  "batch_size": 32,
+  "maximum_epochs": 10,
+  "patience": 3,
+  "seed": 20260913,
+  "device": "cpu",
+  "train_samples": 3221,
+  "validation_samples": 690,
+  "test_set_read_or_used": false,
+  "trainable_parameters": 5124,
+  "class_weights": [
+    0.8275950668036999,
+    0.9655275779376499,
+    1.709660297239915,
+    0.8539236479321315
+  ]
+}

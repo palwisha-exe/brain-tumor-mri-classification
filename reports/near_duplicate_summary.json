@@ -1,0 +1,8 @@
+{
+  "hash": "256-bit DCT perceptual hash",
+  "minimum_cross_split_distance": 2,
+  "pairs_at_or_below_2_bits": 2,
+  "pairs_at_or_below_4_bits": 4,
+  "pairs_meeting_full_duplicate_rule": 0,
+  "note": "Perceptual similarity is a screening signal, not proof of patient identity; candidates require visual review."
+}

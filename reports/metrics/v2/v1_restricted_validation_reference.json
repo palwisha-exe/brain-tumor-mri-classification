@@ -1,0 +1,62 @@
+{
+  "label": "Version 1 reference on Version 2 eligible validation subset (original_split=Training)",
+  "checkpoint": "models/efficientnet_b0_finetuned_best.pt",
+  "samples": 690,
+  "accuracy": 0.9246376811594202,
+  "macro_f1": 0.925613827078696,
+  "per_class": {
+    "glioma": {
+      "precision": 0.9494949494949495,
+      "recall": 0.8952380952380953,
+      "f1": 0.9215686274509803,
+      "support": 210
+    },
+    "meningioma": {
+      "precision": 0.8579234972677595,
+      "recall": 0.8971428571428571,
+      "f1": 0.8770949720670391,
+      "support": 175
+    },
+    "notumor": {
+      "precision": 0.9666666666666667,
+      "recall": 0.925531914893617,
+      "f1": 0.9456521739130435,
+      "support": 94
+    },
+    "pituitary": {
+      "precision": 0.9406392694063926,
+      "recall": 0.976303317535545,
+      "f1": 0.958139534883721,
+      "support": 211
+    }
+  },
+  "confusion_matrix": [
+    [
+      188,
+      21,
+      1,
+      0
+    ],
+    [
+      4,
+      157,
+      2,
+      12
+    ],
+    [
+      4,
+      2,
+      87,
+      1
+    ],
+    [
+      2,
+      3,
+      0,
+      206
+    ]
+  ],
+  "glioma_as_meningioma": 21,
+  "meningioma_as_glioma": 4,
+  "original_kaggle_testing_used": false
+}

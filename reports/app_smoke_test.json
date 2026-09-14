@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "date": "2026-09-13",
+  "command": "streamlit run app/app.py --server.headless true --server.port 8502",
+  "health_endpoint": "/_stcore/health",
+  "health_response": "ok",
+  "root_http_status": 200,
+  "selected_checkpoint_inference_test": "pass",
+  "gradcam_generation_test": "pass",
+  "note": "The local server was stopped after the smoke test."
+}

@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this research software, please cite it using this metadata."
+title: "Brain Tumor Classification from MRI Using Deep Learning and Explainable AI"
+type: software
+authors:
+  - family-names: Mirani
+    given-names: Palwisha
+abstract: >-
+  A reproducible research implementation for four-class brain MRI image
+  classification with leakage-controlled splitting, EfficientNet-B0,
+  held-out evaluation, Grad-CAM, and a Streamlit demonstration.
+keywords:
+  - medical imaging
+  - brain MRI
+  - deep learning
+  - explainable AI
+  - Grad-CAM
+version: "2.0"
+license: MIT

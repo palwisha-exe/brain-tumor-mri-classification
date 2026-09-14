@@ -1,0 +1,27 @@
+{
+  "run_name": "v2_b0_224_frozen_cached",
+  "version": 2,
+  "architecture": "efficientnet_b0",
+  "stage": "frozen_cached_features",
+  "source_checkpoint": "models/efficientnet_b0_frozen_best.pt",
+  "source_checkpoint_sha256": "71f8b9eaab088d3ec4cd4020260f09d3123d2dbb6766cacfe54e227a3c078509",
+  "source_classifier_loaded": false,
+  "input_size": 224,
+  "unfrozen_blocks": 0,
+  "augmentation": "v1_conservative",
+  "loss": "weighted_ce",
+  "learning_rate": 0.001,
+  "seed": 20260913,
+  "device": "cpu",
+  "train_samples": 3221,
+  "validation_samples": 690,
+  "test_set_read_or_used": false,
+  "original_testing_source_used": false,
+  "cached_training_views": 1,
+  "class_weights": [
+    0.8275950668036999,
+    0.9655275779376499,
+    1.709660297239915,
+    0.8539236479321315
+  ]
+}

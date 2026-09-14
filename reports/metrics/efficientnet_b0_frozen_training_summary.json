@@ -1,0 +1,21 @@
+{
+  "run_name": "efficientnet_b0_frozen",
+  "architecture": "efficientnet_b0",
+  "stage": "frozen",
+  "device": "cpu",
+  "seed": 20260913,
+  "input_size": 160,
+  "epochs_completed": 30,
+  "best_epoch": 30,
+  "best_validation_macro_f1": 0.8955139503368027,
+  "elapsed_seconds": 187.91721200942993,
+  "checkpoint": "models/efficientnet_b0_frozen_best.pt",
+  "test_set_used": false,
+  "class_weights": [
+    0.840104585679807,
+    1.0099129593810445,
+    1.5562593144560357,
+    0.8496745321399511
+  ],
+  "note": "Backbone representations were extracted once from a seeded dynamically augmented training view; only the classifier head was optimized in this stage."
+}

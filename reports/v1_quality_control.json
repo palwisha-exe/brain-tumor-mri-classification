@@ -1,0 +1,123 @@
+{
+  "status": "pass",
+  "checks_passed": 29,
+  "checks": [
+    {
+      "check": "original image count is 7,200",
+      "status": "pass"
+    },
+    {
+      "check": "included plus excluded equals original count",
+      "status": "pass"
+    },
+    {
+      "check": "split method wording is canonical",
+      "status": "pass"
+    },
+    {
+      "check": "patient-level independence is explicitly unverified",
+      "status": "pass"
+    },
+    {
+      "check": "class mapping is canonical",
+      "status": "pass"
+    },
+    {
+      "check": "manifest split counts match preparation summary",
+      "status": "pass"
+    },
+    {
+      "check": "final manifests contain 5,968 unique paths",
+      "status": "pass"
+    },
+    {
+      "check": "no explicitly augmented filename is in a final split",
+      "status": "pass"
+    },
+    {
+      "check": "exact decoded hashes are disjoint: train vs validation",
+      "status": "pass"
+    },
+    {
+      "check": "exact decoded hashes are disjoint: train vs test",
+      "status": "pass"
+    },
+    {
+      "check": "exact decoded hashes are disjoint: validation vs test",
+      "status": "pass"
+    },
+    {
+      "check": "selection record excludes test set",
+      "status": "pass"
+    },
+    {
+      "check": "selected model is the validation winner",
+      "status": "pass"
+    },
+    {
+      "check": "baseline_cnn prediction count matches test manifest",
+      "status": "pass"
+    },
+    {
+      "check": "baseline_cnn saved accuracy recomputes",
+      "status": "pass"
+    },
+    {
+      "check": "baseline_cnn saved macro-F1 recomputes",
+      "status": "pass"
+    },
+    {
+      "check": "baseline_cnn confusion matrix recomputes",
+      "status": "pass"
+    },
+    {
+      "check": "baseline_cnn checkpoint class order matches",
+      "status": "pass"
+    },
+    {
+      "check": "baseline_cnn checkpoint normalization matches pipeline",
+      "status": "pass"
+    },
+    {
+      "check": "efficientnet_b0_finetuned prediction count matches test manifest",
+      "status": "pass"
+    },
+    {
+      "check": "efficientnet_b0_finetuned saved accuracy recomputes",
+      "status": "pass"
+    },
+    {
+      "check": "efficientnet_b0_finetuned saved macro-F1 recomputes",
+      "status": "pass"
+    },
+    {
+      "check": "efficientnet_b0_finetuned confusion matrix recomputes",
+      "status": "pass"
+    },
+    {
+      "check": "efficientnet_b0_finetuned checkpoint class order matches",
+      "status": "pass"
+    },
+    {
+      "check": "efficientnet_b0_finetuned checkpoint normalization matches pipeline",
+      "status": "pass"
+    },
+    {
+      "check": "all 16 Grad-CAM cases and files are present",
+      "status": "pass"
+    },
+    {
+      "check": "required deliverables are present",
+      "status": "pass"
+    },
+    {
+      "check": "documentation states the patient-independence limitation",
+      "status": "pass"
+    },
+    {
+      "check": "application contains prominent non-clinical disclaimer",
+      "status": "pass"
+    }
+  ],
+  "note": "This audit verifies repository consistency; it cannot establish patient-level independence or clinical validity."
+}

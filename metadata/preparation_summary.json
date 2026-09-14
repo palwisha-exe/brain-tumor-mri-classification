@@ -1,0 +1,71 @@
+{
+  "method": "image-level leakage-controlled",
+  "patient_level_independence_verified": false,
+  "seed": 20260913,
+  "original_images": 7200,
+  "original_class_counts": {
+    "glioma": 1800,
+    "meningioma": 1800,
+    "notumor": 1800,
+    "pituitary": 1800
+  },
+  "original_split_counts": {
+    "Testing": 1600,
+    "Training": 5600
+  },
+  "corrupted_images": 0,
+  "pre_generated_augmented_excluded": 203,
+  "redundant_decoded_duplicates_excluded": 263,
+  "redundant_perceptual_duplicates_excluded": 756,
+  "label_conflict_group_images_excluded": 10,
+  "accepted_duplicate_edges": 1896,
+  "accepted_cross_label_edges": 8,
+  "total_excluded": 1232,
+  "total_included_unique": 5968,
+  "final_split_counts": {
+    "test": 896,
+    "train": 4177,
+    "validation": 895
+  },
+  "final_split_class_counts": {
+    "test": {
+      "glioma": 267,
+      "meningioma": 222,
+      "notumor": 143,
+      "pituitary": 264
+    },
+    "train": {
+      "glioma": 1243,
+      "meningioma": 1034,
+      "notumor": 671,
+      "pituitary": 1229
+    },
+    "validation": {
+      "glioma": 266,
+      "meningioma": 222,
+      "notumor": 144,
+      "pituitary": 263
+    }
+  },
+  "original_cross_split_decoded_duplicate_groups": 111,
+  "original_cross_split_decoded_duplicate_pairs": 121,
+  "final_cross_split_exact_decoded_duplicates": 0,
+  "classes": [
+    "glioma",
+    "meningioma",
+    "notumor",
+    "pituitary"
+  ],
+  "class_to_index": {
+    "glioma": 0,
+    "meningioma": 1,
+    "notumor": 2,
+    "pituitary": 3
+  },
+  "split_fractions": {
+    "train": 0.7,
+    "validation": 0.15,
+    "test": 0.15
+  },
+  "selection_rule": "Exclude all pre-generated augmented files. Build duplicate components from exact decoded-RGB equality and visually reviewed high-similarity rules: pHash distance 0 with correlation >=0.98; distance <=2 with correlation >=0.975 and SSIM >=0.82; or distance <=4 with correlation >=0.96 and SSIM >=0.84. Exclude every class-conflicting component; otherwise retain the lexicographically first path. Stratify representatives with fixed seeds."
+}

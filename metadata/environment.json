@@ -1,0 +1,18 @@
+{
+  "recorded_date": "2026-09-13",
+  "platform": "macOS Apple Silicon",
+  "python": "3.9.6",
+  "device": "cpu",
+  "torch": "2.8.0",
+  "torchvision": "0.23.0",
+  "numpy": "2.0.2",
+  "pandas": "2.3.3",
+  "pillow": "11.3.0",
+  "scikit_learn": "1.6.1",
+  "scipy": "1.13.1",
+  "matplotlib": "3.9.4",
+  "seaborn": "0.13.2",
+  "streamlit": "1.50.0",
+  "seed": 20260913,
+  "note": "Hardware identifiers are intentionally omitted. Cross-platform bitwise reproducibility is not guaranteed."
+}

@@ -1,0 +1,11 @@
+true_class,predicted_class,count
+glioma,meningioma,32
+meningioma,glioma,28
+meningioma,pituitary,8
+meningioma,notumor,5
+glioma,notumor,4
+pituitary,meningioma,4
+pituitary,glioma,3
+glioma,pituitary,2
+notumor,glioma,2
+notumor,meningioma,2
