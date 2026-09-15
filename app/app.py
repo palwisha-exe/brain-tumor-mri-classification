@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import hashlib
 import json
 import os
@@ -13,6 +14,7 @@ os.environ.setdefault("MPLCONFIGDIR", str(PROJECT_ROOT / ".cache" / "matplotlib"
 import numpy as np
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 import torch
 from matplotlib import colormaps
 from PIL import Image
@@ -34,6 +36,9 @@ st.set_page_config(
 )
 
 FINAL_SELECTION_PATH = MODELS_DIR / "selected_model_v2.json"
+BRAIN_VIEWER_ASSET = PROJECT_ROOT / "app" / "assets" / "bodyparts3d_brain_prototype.glb"
+BRAIN_VIEWER_SCRIPT = PROJECT_ROOT / "app" / "assets" / "brain_viewer.bundle.min.js"
+BRAIN_VIEWER_SHA256 = "ec080766bbf08f6f7f97410a55bfa5ed77a8b2314a538067ad303da5b4697764"
 
 st.markdown(
     """
@@ -123,6 +128,79 @@ st.markdown(
       .result-confidence { color: #74d0da; font-size: .98rem; font-weight: 680; }
       .prob-row { display:flex; justify-content:space-between; align-items:center; margin-top:.7rem; color:var(--text-soft); font-weight:620; }
       .fine-print { color: var(--muted); font-size: .84rem; line-height: 1.5; }
+      .scan-experience {
+        min-height: 330px; display: grid; place-items: center;
+        margin: .65rem 0 1rem; padding: 1.15rem 1.4rem;
+        overflow: hidden; border: 1px solid var(--line-strong); border-radius: 11px;
+        background: var(--panel);
+      }
+      .mri-stack {
+        position: relative; display: block; width: min(100%, 650px); aspect-ratio: 2 / 1;
+        perspective: 1100px; transform-style: preserve-3d;
+      }
+      .mri-slice {
+        --slice-transform: translate3d(0, 0, 0) rotateX(2deg) rotateY(-6deg);
+        --drift-x: 0px; --drift-y: 0px;
+        position: absolute; left: 11%; top: 12%; width: 62%; height: 76%;
+        overflow: hidden; border: 1px solid #315269; border-radius: 8px;
+        background: var(--canvas-deep); transform: var(--slice-transform);
+        transform-origin: center; backface-visibility: hidden;
+      }
+      .mri-slice svg { display: block; width: 100%; height: 100%; }
+      .mri-slice--rear-3 {
+        --slice-transform: translate3d(44%, -14%, -120px) rotateX(3deg) rotateY(-9deg) scale(.86);
+        --drift-x: 5px; --drift-y: -2px; z-index: 1; opacity: .30;
+      }
+      .mri-slice--rear-2 {
+        --slice-transform: translate3d(30%, -10%, -80px) rotateX(3deg) rotateY(-8deg) scale(.90);
+        --drift-x: 4px; --drift-y: -2px; z-index: 2; opacity: .46;
+      }
+      .mri-slice--rear-1 {
+        --slice-transform: translate3d(16%, -5%, -40px) rotateX(2.5deg) rotateY(-7deg) scale(.95);
+        --drift-x: 2px; --drift-y: -1px; z-index: 3; opacity: .68;
+      }
+      .mri-slice--front { z-index: 4; }
+      .mri-slice--rear-3,
+      .mri-slice--rear-2,
+      .mri-slice--rear-1 {
+        animation: slice-shift 18s ease-in-out infinite alternate;
+      }
+      .mri-film { fill: #050c13; }
+      .mri-skull { fill: #81919a; opacity: .72; }
+      .mri-cavity { fill: #111f2a; }
+      .mri-tissue-outer { fill: #526773; opacity: .88; }
+      .mri-tissue-inner { fill: #344a57; }
+      .mri-tissue-soft { fill: #657985; opacity: .56; }
+      .mri-ventricle { fill: #0a151e; }
+      .mri-center { fill: #273b47; }
+      .mri-divider { fill: #162732; opacity: .82; }
+      .mri-ticks { stroke: #526978; stroke-width: 2; }
+      .mri-ticks .active { stroke: var(--accent); }
+      .mri-slice--rear-3 .mri-ticks,
+      .mri-slice--rear-2 .mri-ticks,
+      .mri-slice--rear-1 .mri-ticks { opacity: .35; }
+      .mri-scan-line {
+        position: absolute; top: 4%; bottom: 4%; left: 7%; width: 1px;
+        background: var(--accent); opacity: .46;
+        animation: scan-sweep 9s linear infinite;
+      }
+      .scan-experience--compact {
+        min-height: 0; display: flex; justify-content: flex-start; gap: .8rem;
+        margin: .75rem 0 .25rem; padding: .55rem .7rem;
+      }
+      .scan-experience--compact .mri-stack { width: 150px; flex: 0 0 150px; }
+      .scan-experience--compact .mri-slice { border-radius: 4px; }
+      .scan-state-copy { display: block; color: var(--text-soft); font-size: .84rem; font-weight: 650; letter-spacing: .01em; }
+      @keyframes scan-sweep {
+        0% { left: 7%; opacity: 0; }
+        12% { opacity: .46; }
+        88% { opacity: .46; }
+        100% { left: 93%; opacity: 0; }
+      }
+      @keyframes slice-shift {
+        from { transform: var(--slice-transform); }
+        to { transform: var(--slice-transform) translate3d(var(--drift-x), var(--drift-y), 0); }
+      }
       .app-footer {
         margin-top: 3rem; padding: 1.15rem 0 .25rem; border-top: 1px solid var(--line);
         text-align: center; color: var(--muted); line-height: 1.45;
@@ -246,6 +324,16 @@ st.markdown(
         .block-container { padding-top: 2rem; }
         .hero { align-items: flex-start; flex-direction: column; padding: 1rem; }
         .system-status { min-width: 0; width: 100%; }
+        .scan-experience { min-height: 0; padding: .85rem .65rem; }
+        .mri-stack { width: min(100%, 480px); }
+        .scan-experience--compact { align-items: center; }
+        .scan-experience--compact .mri-stack { width: 118px; flex-basis: 118px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .mri-slice--rear-3,
+        .mri-slice--rear-2,
+        .mri-slice--rear-1 { animation: none; }
+        .mri-scan-line { left: 50%; opacity: .24; animation: none; }
       }
     </style>
     """,
@@ -263,6 +351,142 @@ def render_footer() -> None:
         </footer>
         """,
         unsafe_allow_html=True,
+    )
+
+
+@st.cache_data
+def load_brain_viewer_payload() -> tuple[str, str]:
+    """Load and verify the bundled educational anatomy viewer assets."""
+    model_bytes = BRAIN_VIEWER_ASSET.read_bytes()
+    model_digest = hashlib.sha256(model_bytes).hexdigest()
+    if model_digest != BRAIN_VIEWER_SHA256:
+        raise ValueError("The bundled BodyParts3D brain asset failed integrity verification.")
+    viewer_script = BRAIN_VIEWER_SCRIPT.read_text(encoding="utf-8")
+    return base64.b64encode(model_bytes).decode("ascii"), viewer_script
+
+
+def render_brain_viewer() -> None:
+    """Render the interactive BodyParts3D anatomy model in the empty state."""
+    try:
+        encoded_model, viewer_script = load_brain_viewer_payload()
+    except (OSError, ValueError):
+        st.warning("The educational anatomy visualization is temporarily unavailable.")
+        return
+
+    safe_script = viewer_script.replace("</script", "<\\/script")
+    viewer_html = f"""
+    <!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <style>
+          :root {{ color-scheme: dark; }}
+          * {{ box-sizing: border-box; }}
+          html, body {{
+            width: 100%; height: 100%; margin: 0; overflow: hidden;
+            background: transparent;
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          }}
+          #brain-viewer {{
+            position: relative; width: 100%; height: 390px; overflow: hidden;
+            border: 1px solid #315269; border-radius: 11px;
+            background: #0b1b2a;
+            user-select: none; touch-action: none;
+          }}
+          #brain-canvas {{ display: block; width: 100%; height: 100%; cursor: grab; outline: none; }}
+          #brain-viewer.is-interacting #brain-canvas {{ cursor: grabbing; }}
+          .viewer-copy {{
+            position: absolute; z-index: 2; left: 18px; top: 16px;
+            max-width: min(330px, calc(100% - 36px)); pointer-events: none;
+          }}
+          .viewer-kicker {{
+            color: #72cbd5; font-size: 10px; font-weight: 750;
+            letter-spacing: .14em; text-transform: uppercase;
+          }}
+          .viewer-title {{ margin-top: 5px; color: #eef5f8; font-size: 15px; font-weight: 700; }}
+          .viewer-note {{ margin-top: 4px; color: #91a6b5; font-size: 11px; line-height: 1.45; }}
+          #brain-status {{
+            position: absolute; z-index: 2; left: 50%; bottom: 14px;
+            transform: translateX(-50%); width: max-content; max-width: calc(100% - 32px);
+            padding: 6px 10px; border: 1px solid #243b4d; border-radius: 6px;
+            background: rgba(6, 17, 28, .82); color: #a9bac6;
+            font-size: 10px; letter-spacing: .025em; text-align: center;
+            pointer-events: none;
+          }}
+          #brain-viewer:not(.is-ready):not(.has-error)::after {{
+            content: ""; position: absolute; left: 50%; top: 52%; width: 24px; height: 24px;
+            margin: -12px 0 0 -12px; border: 2px solid #315269; border-top-color: #42b8c7;
+            border-radius: 50%; animation: load 1.4s linear infinite;
+          }}
+          @keyframes load {{ to {{ transform: rotate(360deg); }} }}
+          @media (max-width: 700px) {{
+            #brain-viewer {{ height: 330px; }}
+            .viewer-copy {{ left: 14px; top: 13px; }}
+            .viewer-note {{ max-width: 250px; }}
+          }}
+          @media (prefers-reduced-motion: reduce) {{
+            #brain-viewer:not(.is-ready):not(.has-error)::after {{ animation: none; }}
+          }}
+        </style>
+      </head>
+      <body>
+        <div id="brain-viewer">
+          <canvas
+            id="brain-canvas"
+            aria-label="Interactive educational three-dimensional brain anatomy model. Drag to rotate and scroll or pinch to zoom."
+          ></canvas>
+          <div class="viewer-copy">
+            <div class="viewer-kicker">Anatomy viewer</div>
+            <div class="viewer-title">Interactive brain anatomy</div>
+            <div class="viewer-note">Educational visualization · Not the uploaded MRI</div>
+          </div>
+          <div id="brain-status" role="status" aria-live="polite">Loading anatomical model…</div>
+        </div>
+        <script>window.BRAIN_MODEL_BASE64 = "{encoded_model}";</script>
+        <script>{safe_script}</script>
+      </body>
+    </html>
+    """
+    components.html(viewer_html, height=398, scrolling=False)
+
+
+def scan_visual_markup(*, compact: bool = False) -> str:
+    variant = " scan-experience--compact" if compact else ""
+    status_attributes = ' role="status" aria-live="polite"' if compact else ""
+    state_copy = '<span class="scan-state-copy">Analyzing MRI…</span>' if compact else ""
+    slice_layers = ("rear-2", "rear-1", "front") if compact else ("rear-3", "rear-2", "rear-1", "front")
+    slice_svg = "".join(line.strip() for line in """
+        <svg aria-hidden="true" viewBox="0 0 360 240" preserveAspectRatio="none" focusable="false">
+          <rect class="mri-film" width="360" height="240" fill="#050c13" />
+          <ellipse class="mri-skull" cx="180" cy="120" rx="91" ry="104" fill="#81919a" opacity=".72" />
+          <ellipse class="mri-cavity" cx="180" cy="120" rx="83" ry="96" fill="#111f2a" />
+          <path class="mri-tissue-outer" d="M177 35c-44-8-76 26-76 82 0 56 31 91 76 88V35Zm6 0c44-8 76 26 76 82 0 56-31 91-76 88V35Z" fill="#526773" opacity=".88" />
+          <path class="mri-tissue-inner" d="M169 55c-28 1-50 28-50 66 0 38 22 63 50 65V55Zm22 0c28 1 50 28 50 66 0 38-22 63-50 65V55Z" fill="#344a57" />
+          <path class="mri-tissue-soft" d="M155 70c-17 10-27 29-27 51 0 23 11 42 28 51-6-16-8-33-5-51 2-18 4-34 4-51Zm50 0c17 10 27 29 27 51 0 23-11 42-28 51 6-16 8-33 5-51-2-18-4-34-4-51Z" fill="#657985" opacity=".56" />
+          <path class="mri-ventricle" d="M173 102c-13 2-21 10-22 21 2 10 10 17 22 18l6-19-6-20Zm14 0c13 2 21 10 22 21-2 10-10 17-22 18l-6-19 6-20Z" fill="#0a151e" />
+          <ellipse class="mri-center" cx="180" cy="151" rx="22" ry="15" fill="#273b47" />
+          <rect class="mri-divider" x="177" y="36" width="6" height="169" rx="3" fill="#162732" opacity=".82" />
+          <g class="mri-ticks" stroke="#526978" stroke-width="2">
+            <line x1="330" y1="64" x2="340" y2="64" />
+            <line x1="333" y1="92" x2="340" y2="92" />
+            <line class="active" x1="327" y1="120" x2="340" y2="120" stroke="#42b8c7" />
+            <line x1="333" y1="148" x2="340" y2="148" />
+            <line x1="330" y1="176" x2="340" y2="176" />
+          </g>
+        </svg>
+    """.splitlines())
+    slices = "".join(
+        f'<span class="mri-slice mri-slice--{layer}">{slice_svg}'
+        + ('<span class="mri-scan-line" aria-hidden="true"></span>' if layer == "front" else "")
+        + "</span>"
+        for layer in slice_layers
+    )
+    return (
+        f'<div class="scan-experience{variant}"{status_attributes}>'
+        f'<span class="mri-stack" aria-hidden="true">{slices}</span>'
+        f"{state_copy}"
+        "</div>"
     )
 
 
@@ -409,7 +633,15 @@ with st.sidebar:
     st.markdown(
         """
         <div class="sidebar-brand">
-          <div class="sidebar-mark">MR</div>
+          <div class="sidebar-mark">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="1.4rem" height="1.4rem"
+                 fill="none" stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 6.1a3.1 3.1 0 0 0-5.8-1.5 3.2 3.2 0 0 0-1.6 4.1A3.5 3.5 0 0 0 5.5 15a3.1 3.1 0 0 0 4.1 3.8A2.4 2.4 0 0 0 12 16.4V6.1Z" />
+              <path d="M12 6.1a3.1 3.1 0 0 1 5.8-1.5 3.2 3.2 0 0 1 1.6 4.1 3.5 3.5 0 0 1-.9 6.3 3.1 3.1 0 0 1-4.1 3.8 2.4 2.4 0 0 1-2.4-2.4V6.1Z" />
+              <path d="M7.2 8.2c1.5 0 2.6.9 2.6 2.2M16.8 8.2c-1.5 0-2.6.9-2.6 2.2M7.8 14.3c1.1-.2 2 .2 2.6 1M16.2 14.3c-1.1-.2-2 .2-2.6 1" />
+            </svg>
+          </div>
           <div>
             <div class="sidebar-title">Brain MRI AI</div>
             <div class="sidebar-subtitle">Tumor Classification &amp; Explainability</div>
@@ -509,6 +741,7 @@ st.caption("Accepted formats: JPG, JPEG, and PNG. The image is decoded by conten
 uploaded = st.file_uploader("MRI image", type=["jpg", "jpeg", "png"], label_visibility="collapsed")
 
 if uploaded is None:
+    render_brain_viewer()
     st.info("Upload an image to enable analysis. Your original file is not modified.", icon="📤")
     st.markdown("#### Workspace ready")
     col1, col2, col3 = st.columns(3)
@@ -541,20 +774,25 @@ with controls:
     st.caption("The model will resize this image to its checkpoint-recorded 224×224 input and apply ImageNet normalization once.")
     run_analysis = st.button("Run image review", type="primary", width="stretch")
     st.caption("Analysis runs locally with the saved selected checkpoint.")
+    analysis_state = st.empty()
 
 if run_analysis:
-    with st.spinner("Running classification and generating Grad-CAM…"):
-        try:
-            st.session_state.analysis_result = analyze(image)
-            st.session_state.analysis_upload_id = upload_id
-        except FileNotFoundError:
-            st.error("The selected checkpoint is unavailable. Restore the saved model artifact and try again.")
-            render_footer()
-            st.stop()
-        except Exception as exc:
-            st.error(f"Analysis could not be completed: {exc}")
-            render_footer()
-            st.stop()
+    analysis_state.markdown(scan_visual_markup(compact=True), unsafe_allow_html=True)
+    try:
+        with st.spinner("Running classification and generating Grad-CAM…"):
+            try:
+                st.session_state.analysis_result = analyze(image)
+                st.session_state.analysis_upload_id = upload_id
+            except FileNotFoundError:
+                st.error("The selected checkpoint is unavailable. Restore the saved model artifact and try again.")
+                render_footer()
+                st.stop()
+            except Exception as exc:
+                st.error(f"Analysis could not be completed: {exc}")
+                render_footer()
+                st.stop()
+    finally:
+        analysis_state.empty()
 
 if st.session_state.get("analysis_upload_id") != upload_id:
     st.info("Select **Run image review** to generate a model output for this image.")
