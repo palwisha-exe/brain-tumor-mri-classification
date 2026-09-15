@@ -15,5 +15,5 @@
 13. **Streamlit:** the final app uses the frozen V2 checkpoint, 224×224 preprocessing, original-resolution display, probability/Grad-CAM parity checks, and prominent non-clinical disclaimers.
 14. **Limitations:** no patient/study IDs, patient-level independence unverified, provenance/version not proven from local records, no external or prospective testing, heuristic perceptual matching, shortcut signals, one fixed split, no confidence intervals, and no clinical or explanation validation.
 15. **Review first:** `README.md`, `docs/brain_tumor_mri_research_report.md`, `docs/MODEL_CARD.md`, `docs/DATASET.md`, and `reports/metrics/v2/final_v2_test_metrics.json`.
-16. **Demo:** retrieve the release checkpoint with `python scripts/fetch_final_model.py --url <final-checkpoint-release-url>`, then run `streamlit run app/app.py`.
-17. **External work required:** confirm exact dataset provenance/license; choose a software license; create the repository release asset; and obtain patient-grouped, clinically adjudicated external data for stronger evaluation.
+16. **Demo:** retrieve the verified `v2.0.0` release checkpoint with `python scripts/fetch_final_model.py`, then run `streamlit run app/app.py`.
+17. **External work required:** confirm exact dataset provenance/license and obtain patient-grouped, clinically adjudicated external data for stronger evaluation.

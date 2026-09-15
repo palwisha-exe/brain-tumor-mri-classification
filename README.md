@@ -79,10 +79,10 @@ source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
-The final checkpoint is planned as a separate GitHub Release asset. After the repository and release exist, retrieve it with:
+The final checkpoint is distributed as a separate [GitHub Release asset](https://github.com/palwisha-exe/brain-tumor-mri-classification/releases/tag/v2.0.0). Retrieve and verify it with:
 
 ```bash
-python scripts/fetch_final_model.py --url <final-checkpoint-release-url>
+python scripts/fetch_final_model.py
 streamlit run app/app.py
 ```
 

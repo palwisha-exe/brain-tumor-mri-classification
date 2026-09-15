@@ -35,8 +35,8 @@ The system has no patient-level, external, prospective, clinical-workflow, calib
 ```bash
 cd brain-tumor-mri-ai
 source .venv/bin/activate
-python scripts/fetch_final_model.py --url <final-checkpoint-release-url>
+python scripts/fetch_final_model.py
 streamlit run app/app.py
 ```
 
-The checkpoint release URL remains unavailable until a repository release is approved and created.
+The helper retrieves the verified checkpoint from the official [`v2.0.0` GitHub Release](https://github.com/palwisha-exe/brain-tumor-mri-classification/releases/tag/v2.0.0).

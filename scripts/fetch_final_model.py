@@ -16,6 +16,10 @@ from urllib.request import Request, urlopen
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DESTINATION = PROJECT_ROOT / "models" / "v2" / "v2_b0_224_last3_unfreeze_best.pt"
 EXPECTED_SHA256 = "26e4b268c112533bf22b6e726625044b0d0ad774fa7d00bea2599e044c36e1d0"
+DEFAULT_URL = (
+    "https://github.com/palwisha-exe/brain-tumor-mri-classification/"
+    "releases/download/v2.0.0/v2_b0_224_last3_unfreeze_best.pt"
+)
 
 
 def sha256(path: Path) -> str:
@@ -28,7 +32,11 @@ def sha256(path: Path) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--url", required=True, help="HTTPS URL of the approved GitHub Release asset")
+    parser.add_argument(
+        "--url",
+        default=DEFAULT_URL,
+        help="HTTPS URL of the approved GitHub Release asset",
+    )
     args = parser.parse_args()
 
     parsed = urlparse(args.url)
