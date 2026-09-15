@@ -23,6 +23,7 @@ from src.config import CLASS_NAMES, DISPLAY_NAMES, IMAGENET_MEAN, IMAGENET_STD, 
 from src.data import build_transform  # noqa: E402
 from src.gradcam import GradCAM  # noqa: E402
 from src.models import build_model, last_convolution  # noqa: E402
+from scripts.fetch_final_model import DEFAULT_URL, EXPECTED_SHA256, ensure_final_model  # noqa: E402
 
 
 st.set_page_config(
@@ -268,7 +269,16 @@ def render_footer() -> None:
 @st.cache_resource
 def load_selected_model():
     selection = json.loads(FINAL_SELECTION_PATH.read_text())["selected"]
+    if selection.get("checkpoint_sha256") != EXPECTED_SHA256:
+        raise ValueError("The selected checkpoint digest does not match the approved final V2 release asset.")
     checkpoint_path = PROJECT_ROOT / selection["checkpoint"]
+    try:
+        ensure_final_model(destination=checkpoint_path, url=DEFAULT_URL)
+    except (OSError, ValueError) as exc:
+        raise RuntimeError(
+            "The approved final V2 checkpoint could not be downloaded and verified. "
+            "Analysis is unavailable until the verified release asset can be loaded."
+        ) from exc
     checkpoint_digest = hashlib.sha256(checkpoint_path.read_bytes()).hexdigest()
     if checkpoint_digest != selection["checkpoint_sha256"]:
         raise ValueError("The final Version 2 checkpoint checksum does not match its frozen selection record.")

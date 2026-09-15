@@ -30,33 +30,26 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--url",
-        default=DEFAULT_URL,
-        help="HTTPS URL of the approved GitHub Release asset",
-    )
-    args = parser.parse_args()
-
-    parsed = urlparse(args.url)
+def ensure_final_model(destination: Path = DESTINATION, url: str = DEFAULT_URL) -> Path:
+    """Return the verified V2 checkpoint, downloading the approved asset when absent."""
+    parsed = urlparse(url)
     if parsed.scheme != "https" or not parsed.netloc:
         raise ValueError("The checkpoint URL must be an absolute HTTPS URL.")
 
-    if DESTINATION.exists():
-        observed = sha256(DESTINATION)
+    if destination.exists():
+        observed = sha256(destination)
         if observed == EXPECTED_SHA256:
-            print(f"Verified existing checkpoint: {DESTINATION.relative_to(PROJECT_ROOT)}")
-            return
+            print(f"Verified existing checkpoint: {destination.relative_to(PROJECT_ROOT)}")
+            return destination
         raise FileExistsError(
-            f"Refusing to overwrite {DESTINATION}; its SHA-256 is {observed}, not the expected value."
+            f"Refusing to overwrite {destination}; its SHA-256 is {observed}, not the expected value."
         )
 
-    DESTINATION.parent.mkdir(parents=True, exist_ok=True)
-    request = Request(args.url, headers={"User-Agent": "brain-tumor-mri-ai-release-fetcher/1"})
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    request = Request(url, headers={"User-Agent": "brain-tumor-mri-ai-release-fetcher/1"})
     temporary_path: Optional[Path] = None
     try:
-        with tempfile.NamedTemporaryFile(prefix="final-model-", suffix=".pt", delete=False, dir=DESTINATION.parent) as target:
+        with tempfile.NamedTemporaryFile(prefix="final-model-", suffix=".pt", delete=False, dir=destination.parent) as target:
             temporary_path = Path(target.name)
             with urlopen(request, timeout=120) as source:
                 while chunk := source.read(1024 * 1024):
@@ -65,12 +58,24 @@ def main() -> None:
         observed = sha256(temporary_path)
         if observed != EXPECTED_SHA256:
             raise ValueError(f"Downloaded checkpoint SHA-256 mismatch: {observed}")
-        os.replace(temporary_path, DESTINATION)
+        os.replace(temporary_path, destination)
         temporary_path = None
-        print(f"Installed verified checkpoint: {DESTINATION.relative_to(PROJECT_ROOT)}")
+        print(f"Installed verified checkpoint: {destination.relative_to(PROJECT_ROOT)}")
+        return destination
     finally:
         if temporary_path is not None:
             temporary_path.unlink(missing_ok=True)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--url",
+        default=DEFAULT_URL,
+        help="HTTPS URL of the approved GitHub Release asset",
+    )
+    args = parser.parse_args()
+    ensure_final_model(url=args.url)
 
 
 if __name__ == "__main__":

@@ -1,9 +1,11 @@
 import json
 import hashlib
 
+import pytest
 import torch
 from PIL import Image
 
+from scripts.fetch_final_model import DEFAULT_URL, EXPECTED_SHA256, ensure_final_model
 from src.config import CLASS_NAMES, METADATA_DIR, MODELS_DIR, PROJECT_ROOT, SPLITS_DIR
 from src.data import build_transform
 from src.gradcam import GradCAM
@@ -72,8 +74,24 @@ def test_streamlit_app_uses_verified_v2_artifacts_and_preserves_original_display
     assert abs(metrics["macro_f1"] - 0.9358515320873503) < 1e-12
     app_text = (PROJECT_ROOT / "app" / "app.py").read_text()
     assert 'selected_model_v2.json' in app_text
+    assert 'ensure_final_model(destination=checkpoint_path, url=DEFAULT_URL)' in app_text
     assert 'original_image.size' in app_text
     assert 'Image.Resampling.LANCZOS' in app_text
     assert 'Patient-level independence could not be verified' in app_text
     assert 'NOT a medical device' in app_text
     assert "It is not the model's overall held-out test accuracy" in app_text
+
+
+def test_release_fetcher_is_pinned_and_refuses_an_unverified_existing_file(tmp_path):
+    assert DEFAULT_URL == (
+        "https://github.com/palwisha-exe/brain-tumor-mri-classification/"
+        "releases/download/v2.0.0/v2_b0_224_last3_unfreeze_best.pt"
+    )
+    assert EXPECTED_SHA256 == "26e4b268c112533bf22b6e726625044b0d0ad774fa7d00bea2599e044c36e1d0"
+    destination = tmp_path / "v2_b0_224_last3_unfreeze_best.pt"
+    destination.write_bytes(b"not-the-approved-checkpoint")
+
+    with pytest.raises(FileExistsError, match="Refusing to overwrite"):
+        ensure_final_model(destination=destination)
+
+    assert destination.read_bytes() == b"not-the-approved-checkpoint"
