@@ -27,7 +27,7 @@ from scripts.fetch_final_model import DEFAULT_URL, EXPECTED_SHA256, ensure_final
 
 
 st.set_page_config(
-    page_title="Brain MRI Review Workspace",
+    page_title="Brain MRI AI — Tumor Classification & Explainability",
     page_icon="🧠",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -411,8 +411,8 @@ with st.sidebar:
         <div class="sidebar-brand">
           <div class="sidebar-mark">MR</div>
           <div>
-            <div class="sidebar-title">Neuro Imaging</div>
-            <div class="sidebar-subtitle">Research review workspace</div>
+            <div class="sidebar-title">Brain MRI AI</div>
+            <div class="sidebar-subtitle">Tumor Classification &amp; Explainability</div>
           </div>
         </div>
         """,
