@@ -910,9 +910,4 @@ with st.expander("How to interpret this result responsibly"):
         """
     )
 
-st.caption(
-    f"Model: {result['selection']['run_name']} · Architecture: {result['checkpoint']['architecture']} · "
-    f"Input: {result['checkpoint']['input_size']}×{result['checkpoint']['input_size']} · Device: CPU"
-)
-
 render_footer()
