@@ -2,11 +2,9 @@
 
 A reproducible four-class MRI image-classification research project with dataset-integrity auditing, leakage-controlled splitting, a scratch CNN baseline, two EfficientNetB0 development versions, held-out evaluation, error analysis, Grad-CAM, and a Streamlit demonstration.
 
-### Live Demo
+### 🧠 [Try Brain MRI AI](https://brain-tumor-mri-ai.streamlit.app/)
 
-🧠 **[Launch Brain MRI AI](https://brain-tumor-mri-ai.streamlit.app/)**
-
-Try the deployed research prototype for brain tumor MRI classification and Grad-CAM-based explainability.
+Explore the deployed research prototype for MRI classification and Grad-CAM-based explainability.
 
 > **Research and educational use only.** This software is not a medical device and must not be used for diagnosis, treatment, triage, or patient-care decisions. Patient and study identifiers were unavailable, so patient-level independence could not be verified.
 
