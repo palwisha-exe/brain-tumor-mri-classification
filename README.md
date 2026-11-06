@@ -1,3 +1,5 @@
+![Tests](https://github.com/palwisha-exe/brain-tumor-mri-classification/actions/workflows/tests.yml/badge.svg)
+
 # Brain Tumor Classification from MRI Using Deep Learning and Explainable AI
 
 A reproducible four-class MRI image-classification research project with dataset-integrity auditing, leakage-controlled splitting, a scratch CNN baseline, two EfficientNetB0 development versions, held-out evaluation, error analysis, Grad-CAM, and a Streamlit demonstration.
