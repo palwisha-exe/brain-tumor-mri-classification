@@ -76,8 +76,8 @@ tests/           manifest, preprocessing, checkpoint, inference, and Grad-CAM ch
 Python 3.9.6 and the pinned dependencies were used for the recorded experiments.
 
 ```bash
-git clone <repository-url>
-cd brain-tumor-mri-ai
+git clone https://github.com/palwisha-exe/brain-tumor-mri-classification.git
+cd brain-tumor-mri-classification
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
